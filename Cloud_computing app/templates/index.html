@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cloud Computing Application</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #dbeafe, #eff6ff);
+            margin: 0;
+            padding: 40px 15px;
+            text-align: center;
+        }
+
+        .container {
+            background: white;
+            max-width: 750px;
+            margin: auto;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #1565c0;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .upload-box {
+            background: #f0f7ff;
+            border: 2px dashed #1565c0;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        input[type="file"] {
+            margin: 15px;
+            max-width: 100%;
+        }
+
+        button {
+            background: #1565c0;
+            color: white;
+            padding: 11px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background: #0d47a1;
+        }
+
+        .file-list {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .file-item {
+            background: #f5f5f5;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .file-name {
+            color: #333;
+            overflow-wrap: anywhere;
+        }
+
+        .download {
+            color: #1565c0;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+        }
+
+        .delete-btn:hover {
+            background: #a71d2a;
+        }
+
+        .footer {
+            margin-top: 30px;
+            color: #888;
+            font-size: 13px;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #ddd;
+            margin: 25px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>☁ Cloud Computing Application</h1>
+
+    <p class="subtitle">
+        Upload, Download and Manage Your Files
+    </p>
+
+    <div class="upload-box">
+
+        <h2>Upload Your Files</h2>
+
+        <form action="{{ url_for('upload') }}"
+              method="POST"
+              enctype="multipart/form-data">
+
+            <input type="file" name="file" required>
+
+            <br>
+
+            <button type="submit">
+                Upload File
+            </button>
+
+        </form>
+
+    </div>
+
+    <hr>
+
+    <h2>📁 Stored Files</h2>
+
+    <div class="file-list">
+
+        {% if files %}
+
+            {% for file in files %}
+
+                <div class="file-item">
+
+                    <span class="file-name">
+                        📄 {{ file }}
+                    </span>
+
+                    <div>
+
+                        <a class="download"
+                           href="{{ url_for('download', filename=file) }}">
+                            Download
+                        </a>
+
+                        <form action="{{ url_for('delete', filename=file) }}"
+                              method="POST"
+                              style="display:inline;">
+
+                            <button type="submit"
+                                    class="delete-btn">
+                                Delete
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>No files uploaded yet.</p>
+
+        {% endif %}
+
+    </div>
+
+    <div class="footer">
+        <p>Cloud Computing Mini Project</p>
+        <p>Developed using Python Flask</p>
+    </div>
+
+</div>
+
+</body>
+</html>
